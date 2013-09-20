@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 #define SIZE 50
 
@@ -88,9 +90,9 @@ int CountTowerOfHanoiSteps(int n, char source, char auxillary, char target){
 	}
 	else{
 
-		x = TowerOfHanoi(n-1, source, target, auxillary);
+		x = CountTowerOfHanoiSteps(n-1, source, target, auxillary);
 
-		y = TowerOfHanoi(n-1, auxillary, source, target);
+		y = CountTowerOfHanoiSteps(n-1, auxillary, source, target);
 
 		return (1 + x + y);
 
@@ -151,7 +153,7 @@ void recursiceSplitMinAndMaxSearch(int *a, int l, int h, int *xmin, int *xmax){
 
 	if(l == h){
 		*xmin = a[l];
-		*xmax = l[h];
+		*xmax = a[h];
 	}
 
 	else if(l == h-1){
@@ -182,13 +184,13 @@ void recursiceSplitMinAndMaxSearch(int *a, int l, int h, int *xmin, int *xmax){
 
 }
 
-int fibonaciSeries(int n){
+int fibonacciSeries(int n){
 
 	if(n == 0 || n == 1){
 		return n;
 	}
 	else{
-		return fib(n-1) + fib(n-2);
+		return fibonacciSeries(n-1) + fibonacciSeries(n-2);
 	}
 }
 
@@ -242,6 +244,47 @@ void NQueens(int *a, int n, int r){
 			}
 		}
 	}
+}
+
+char* PreToPostString(char *pre, char *post){
+
+	if(isalpha(*pre) || isdigit(*pre)){
+
+		strncat(post, pre, 1);
+		return pre;
+	}
+	else{
+		char *p = PreToPostString(pre + 1, post);
+
+		p = PreToPostString(p + 1, post);
+		strncat(post, pre, 1);
+
+		return p;
+	}
+
+}
+
+char* PreToInfixString(char *pre, char *post){
+	char *p;
+
+	if(isalpha(*pre) || isdigit(*pre)){
+
+		strncat(post, pre, 1);
+		return pre;
+	}
+	else{
+		strcat(post, "(");
+
+		p = PreToInfixString(pre + 1, post);
+		strncat(post, pre, 1);
+		p = PreToInfixString(p + 1, post);
+
+		strcat(post, ")");
+
+		return p;
+	}
+
+
 }
 
 
