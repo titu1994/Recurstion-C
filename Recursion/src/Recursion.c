@@ -284,7 +284,6 @@ char* PreToInfixString(char *pre, char *post){
 		return p;
 	}
 
-
 }
 
 
